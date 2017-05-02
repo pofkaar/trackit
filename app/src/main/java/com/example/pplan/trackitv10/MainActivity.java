@@ -31,10 +31,10 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String PREFS_NAME = "MyPrefsFile";
-    Button buttonDate, buttonTime, buttonTimeDayEnd;
-    TextView textViewDate, textViewTime, workHoursTextView, textViewTimeDayEnd;
+    Button buttonDate, buttonTime, buttonTimeDayEnd, buttonAmountOfBreaksMinus, buttonAmountOfBreaksPlus;
+    TextView textViewDate, textViewTime, workHoursTextView, textViewTimeDayEnd, textViewBreakDuration, textViewAmountOfBreaks;
     //reset
-    int workHoursCounted = 0, workMinutesCounted = 0, wHStart = 0, wMStart = 0, wHEnd = 0, wMEnd = 0;
+    int workHoursCounted = 0, workMinutesCounted = 0, wHStart = 0, wMStart = 0, wHEnd = 0, wMEnd = 0, breakDurationCount = 0, breakAmount = 0, totalBreakTime =0;
     private int day, month, year, hour, minute;
     String currentDate;
 
@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonTime.setOnClickListener(this);
         buttonTimeDayEnd.setOnClickListener(this);
         workHoursTextView = (TextView) findViewById(R.id.textViewWorkHoursCount);
+        buttonAmountOfBreaksMinus = (Button) findViewById(R.id.buttonAmountOfBreaksMinus);
+        buttonAmountOfBreaksPlus = (Button) findViewById(R.id.buttonAmountOfBreaksPlus);
+        textViewBreakDuration = (TextView) findViewById(R.id.textViewBreakDuration);
+        textViewAmountOfBreaks = (TextView) findViewById(R.id.textViewAmountOfBreaks);
+
+        ////// GET DATA FROM STORAGE
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         workHoursCounted = settings.getInt("workHoursCounted", 0);
@@ -62,8 +68,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         wMStart =  settings.getInt("wMStart", 0);
         wHEnd = settings.getInt("wHEnd", 0);
         wMEnd = settings.getInt("wMEnd", 0);
+        breakDurationCount = settings.getInt("breakDurationCount", 0);
+        ////////////////////////////////
         // add rest
         updateHoursWorked();
+
+        textViewBreakDuration.setText("Break count x "+ breakDurationCount + " min.");
 
     }
 
@@ -144,12 +154,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateHoursWorked() {
+
+       totalBreakTime =  breakAmount * breakDurationCount;
+
         workHoursCounted = wHEnd - wHStart;
         if (workHoursCounted <= 0){
             //workHoursCounted = Math.abs(workHoursCounted) + 12;
             workHoursCounted = 24 + workHoursCounted;
         }
-        workMinutesCounted = wMEnd - wMStart;
+
+        if (totalBreakTime > 60){
+             workHoursCounted = workHoursCounted - 1;
+            totalBreakTime = 60 - totalBreakTime;
+        }else if (totalBreakTime > 120){
+            workHoursCounted = workHoursCounted - 2;
+            totalBreakTime = 120 - totalBreakTime;
+        }
+        workMinutesCounted = wMEnd - wMStart - totalBreakTime; // BREAK DURATION SUBTRACTION--------------------
         if (workMinutesCounted < 0){
             //workMinutesCounted = Math.abs(workMinutesCounted);
             workMinutesCounted = 60 + workMinutesCounted;
@@ -228,5 +249,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         return outputMap;
+    }
+
+    public void buttonMinusBreakCountPressed(View view){
+        if (breakAmount > 0){
+            breakAmount --;
+            textViewAmountOfBreaks.setText("" + breakAmount);
+        }
+    }
+
+    public void  buttonPlusBreakCountPressed(View view){
+        breakAmount ++;
+        textViewAmountOfBreaks.setText("" + breakAmount);
     }
 }

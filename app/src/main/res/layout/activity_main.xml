@@ -85,25 +85,66 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/buttonTimeDayEnd" />
 
+    <TextView
+        android:text="Break count x 0 min."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/textViewBreakDuration"
+        android:layout_below="@+id/textViewTimeDayEnd"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp" />
+
+    <Button
+        android:text="-"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonAmountOfBreaksMinus"
+        android:layout_below="@+id/textViewBreakDuration"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="buttonMinusBreakCountPressed" />
+
+    <Button
+        android:text="+"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonAmountOfBreaksPlus"
+        android:layout_below="@+id/textViewBreakDuration"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="buttonPlusBreakCountPressed" />
+
+    <TextView
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonAmountOfBreaksPlus"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
+        android:id="@+id/textViewAmountOfBreaks"
+        android:textSize="20sp" />
+
     <Button
         android:text="Count"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonWorkHoursCount"
         android:onClick="workHoursCount"
-        android:layout_marginTop="19dp"
-        android:layout_below="@+id/textViewTimeDayEnd"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/buttonAmountOfBreaksMinus"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="39dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textViewWorkHoursCount"
         android:textSize="20sp"
-        android:layout_below="@+id/buttonWorkHoursCount"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
         android:textAlignment="center"
-        android:text="null" />
+        android:text="null"
+        android:layout_alignTop="@+id/buttonWorkHoursCount"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp" />
 
 </RelativeLayout>
