@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button buttonDate, buttonTime, buttonTimeDayEnd, buttonAmountOfBreaksMinus, buttonAmountOfBreaksPlus;
     TextView textViewDate, textViewTime, workHoursTextView, textViewTimeDayEnd, textViewBreakDuration, textViewAmountOfBreaks;
     //reset
-    int workHoursCounted = 0, workMinutesCounted = 0, wHStart = 0, wMStart = 0, wHEnd = 0, wMEnd = 0, breakDurationCount = 0, breakAmount = 0, totalBreakTime =0;
-    private int day, month, year, hour, minute;
+    int workHoursCounted = 0, workHoursCounted2 = 0, workMinutesCounted = 0, wHStart = 0, wMStart = 0, wHEnd = 0, wMEnd = 0, breakDurationCount = 0, breakAmount = 0, totalBreakTime =0;
+
+
+
     String currentDate;
 
     @Override
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("workHoursCounted", workHoursCounted);
-        editor.putInt("workMinutesCounted", workMinutesCounted);
+        editor.putInt("workMinutesCounted", workHoursCounted2);
         editor.putInt("wHStart", wHStart);
         editor.putInt("wMStart", wMStart);
         editor.putInt("wHEnd", wHEnd);
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
+        int day, month, year, hour, minute;
         if (v == buttonDate) {
             Calendar cal = Calendar.getInstance();
             day = cal.get(Calendar.DAY_OF_MONTH);
@@ -148,34 +151,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void saveHistory() {
         Map<String, String> map = loadMap();
-        String workedValue = workHoursCounted + " h and " + workMinutesCounted + " min.";
+        String workedValue = workHoursCounted + " h and " + workHoursCounted2 + " min.";
         map.put(currentDate, workedValue);
         saveMap(map);
     }
 
     private void updateHoursWorked() {
+        totalBreakTime = 0;
+        workMinutesCounted = 0;
+        workHoursCounted = 0;
+        workHoursCounted2 = 0;
 
-       totalBreakTime =  breakAmount * breakDurationCount;
+        totalBreakTime =  breakAmount * breakDurationCount; //breakduration set in settings * amount of breaks (in minutes)
+        int wHStartMin = wHStart * 60; // Start of working day in minutes.
+        int wHEndMin = wHEnd * 60; // End of working day in minutes.
 
-        workHoursCounted = wHEnd - wHStart;
-        if (workHoursCounted <= 0){
-            //workHoursCounted = Math.abs(workHoursCounted) + 12;
-            workHoursCounted = 24 + workHoursCounted;
-        }
+        workMinutesCounted = wHEndMin - wHStartMin + wMEnd - wMStart - totalBreakTime;
+        workHoursCounted2 = (workMinutesCounted % 60);
+        workHoursCounted = workMinutesCounted / 60 % 24;
 
-        if (totalBreakTime > 60){
-             workHoursCounted = workHoursCounted - 1;
-            totalBreakTime = 60 - totalBreakTime;
-        }else if (totalBreakTime > 120){
-            workHoursCounted = workHoursCounted - 2;
-            totalBreakTime = 120 - totalBreakTime;
-        }
-        workMinutesCounted = wMEnd - wMStart - totalBreakTime; // BREAK DURATION SUBTRACTION--------------------
-        if (workMinutesCounted < 0){
-            //workMinutesCounted = Math.abs(workMinutesCounted);
-            workMinutesCounted = 60 + workMinutesCounted;
-        }
-        workHoursTextView.setText("Today, you have worked for " + workHoursCounted + " h and " + workMinutesCounted + " min.");
+//        workHoursCounted = wHEnd - wHStart;
+//        if (workHoursCounted <= 0){
+//            //workHoursCounted = Math.abs(workHoursCounted) + 12;
+//            workHoursCounted = 24 + workHoursCounted;
+//        }
+//
+//        if (totalBreakTime > 60){
+//             workHoursCounted = workHoursCounted - 1;
+//            totalBreakTime = 60 - totalBreakTime;
+//        }else if (totalBreakTime > 120){
+//            workHoursCounted = workHoursCounted - 2;
+//            totalBreakTime = 120 - totalBreakTime;
+//        }
+//        workMinutesCounted = wMEnd - wMStart - totalBreakTime; // BREAK DURATION SUBTRACTION--------------------
+//        if (workMinutesCounted < 0){
+//            //workMinutesCounted = Math.abs(workMinutesCounted);
+//            workMinutesCounted = 60 + workMinutesCounted;
+//        }
+        workHoursTextView.setText("Today, you have worked for " + workHoursCounted + " h and " + workHoursCounted2 + " min.");
     }
 
 
