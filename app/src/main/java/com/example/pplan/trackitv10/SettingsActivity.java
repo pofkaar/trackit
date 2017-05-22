@@ -1,6 +1,7 @@
 package com.example.pplan.trackitv10;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -62,5 +63,9 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString("My_map", jsonString);
             editor.commit();
         }
+    }
+    public void saveSettingsLaunchMainActivity(View view){
+        Intent intent = new Intent(this, MainActivity.class) ;
+        startActivity(intent);
     }
 }

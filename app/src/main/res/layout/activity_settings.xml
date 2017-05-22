@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.pplan.trackitv10.SettingsActivity">
+    tools:context="com.example.pplan.trackitv10.SettingsActivity"
+    android:background="@drawable/blurredbg">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,7 +44,8 @@
                 android:layout_alignBottom="@+id/button"
                 android:layout_toLeftOf="@+id/button"
                 android:layout_toStartOf="@+id/button"
-                android:gravity="center_vertical|center_horizontal|center" />
+                android:gravity="center_vertical|center_horizontal|center"
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:text="Lunch break duration (in minutes)"
@@ -56,7 +58,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_toLeftOf="@+id/button"
-                android:layout_toStartOf="@+id/button" />
+                android:layout_toStartOf="@+id/button"
+                android:textColor="@android:color/black" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -69,16 +72,27 @@
                 android:layout_alignParentEnd="true"
                 android:layout_toRightOf="@+id/textViewResetSettings"
                 android:layout_toEndOf="@+id/textViewResetSettings"
-                android:layout_alignBottom="@+id/textViewBreak" />
+                android:layout_alignBottom="@+id/textViewBreak"
+                android:textColorLink="@android:color/holo_blue_bright"
+                android:textColor="@android:color/black" />
 
             <Button
                 android:text="set"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonSetBreak"
                 android:layout_below="@+id/textViewBreak"
                 android:layout_centerHorizontal="true"
                 android:onClick="breakDurationSet" />
+
+            <Button
+                android:text="Save settings and go back to main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:layout_below="@+id/buttonSetBreak"
+                android:layout_centerHorizontal="true"
+                android:onClick="saveSettingsLaunchMainActivity" />
 
         </RelativeLayout>
     </ScrollView>

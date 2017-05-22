@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            //workMinutesCounted = Math.abs(workMinutesCounted);
 //            workMinutesCounted = 60 + workMinutesCounted;
 //        }
-        workHoursTextView.setText("Today, you have worked for " + workHoursCounted + " h and " + workHoursCounted2 + " min.");
+        workHoursTextView.setText("Latest entry: " + workHoursCounted + " h " + workHoursCounted2 + " min.");
     }
 
 
