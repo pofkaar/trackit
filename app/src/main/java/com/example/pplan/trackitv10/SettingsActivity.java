@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(MainActivity.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("breakDurationCount", breakDurationCount);
-        // add rest
+        // add rest of
         editor.commit();
     }
 
